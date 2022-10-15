@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8976:80"
+    restart: unless-stopped
+    volumes:
+      - ./src:/var/www/html
+
+  database:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: data
+
+    volumes:
+      - ./database/db.sql:/docker-entrypoint-initdb.d/db.sql
