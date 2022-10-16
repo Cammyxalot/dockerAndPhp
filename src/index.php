@@ -5,10 +5,9 @@ session_start();
 if (!isset($_SESSION["user"])) {
     header('Location: /loginMeUp.php');
 }
-$request = $pdo->prepare("SELECT * FROM `posts`");
+$request = $pdo->prepare("SELECT * FROM `posts` INNER JOIN `Users` ON `posts`.`user_id` = `Users`.`user_id`");
 $request->execute();
 $posts = $request->fetchAll(PDO::FETCH_ASSOC);
-// require_once("./vue/indexVue.php");
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -40,6 +39,7 @@ $posts = $request->fetchAll(PDO::FETCH_ASSOC);
     <?php foreach ($posts as $post):?>
         <div>
             <h3><?= $post['postTitle']?></h3>
+            <p><?= $post['userName']?></p>
             <p><?= $post['postContent']?></p>
             <p><?= $post['date']?></p>
         </div>
