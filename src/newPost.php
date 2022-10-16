@@ -6,6 +6,7 @@ $request->execute([
     ':content' => $_POST['content'],
     ':user_id' => 1
 ]);
+
 header("location: /index.php"); 
 
 

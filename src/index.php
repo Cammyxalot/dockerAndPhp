@@ -8,6 +8,11 @@ if (!isset($_SESSION["user"])) {
 $request = $pdo->prepare("SELECT * FROM `posts` INNER JOIN `Users` ON `posts`.`user_id` = `Users`.`user_id`");
 $request->execute();
 $posts = $request->fetchAll(PDO::FETCH_ASSOC);
+
+if(isset($_POST['disconnect'])){
+    session_unset();
+    session_destroy();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,10 +26,11 @@ $posts = $request->fetchAll(PDO::FETCH_ASSOC);
     <title>Beigbeblog</title>
 </head>
 <body>
-
+<a href="./logout.php" >Déconnexion</a>
 <h1> Hi and welcome to chillie's</h1>
 
 <h3>what's new today? </h3>
+
 <form action="./newPost.php" name="newContent" method="POST">
     <label>Title</label>
 </br>
@@ -38,8 +44,8 @@ $posts = $request->fetchAll(PDO::FETCH_ASSOC);
 </form>
     <?php foreach ($posts as $post):?>
         <div>
+            <p><?= $post['userName']?></p> 
             <h3><?= $post['postTitle']?></h3>
-            <p><?= $post['userName']?></p>
             <p><?= $post['postContent']?></p>
             <p><?= $post['date']?></p>
         </div>
